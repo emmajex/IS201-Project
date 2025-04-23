@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Plot Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e1e;
+      color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .game-container {
+      max-width: 600px;
+      text-align: center;
+      padding: 20px;
+      background: #2a2a2a;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+    }
+    input {
+      padding: 10px;
+      margin-top: 10px;
+      width: 80%;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #message {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h2>Guess the Movie Title</h2>
+    <p id="plot">Loading plot...</p>
+    <input type="text" id="guess" placeholder="Your guess..." />
+    <div>
+      <button onclick="checkGuess()">Submit</button>
+      <button onclick="giveUp()">Give Up</button>
+    </div>
+    <p id="message"></p>
+    <button onclick="newGame()" id="play-again" style="display:none;">Play Again</button>
+  </div>
+
+  <script>
+    const movies = [
+      { title: "The Matrix", plot: "A computer hacker learns about the true nature of his reality and his role in the war against its controllers." },
+      { title: "Titanic", plot: "A young couple from different social classes fall in love aboard an ill-fated voyage at sea." },
+      { title: "Inception", plot: "A thief who steals corporate secrets through dream-sharing technology is given a chance at redemption." },
+      { title: "Jurassic Park", plot: "Scientists clone dinosaurs to populate a theme park, but things go terribly wrong." },
+      { title: "Forrest Gump", plot: "A man with a low IQ recounts the early years of his life and how he inadvertently influenced major historical events." }
+    ];
+
+    let currentMovie;
+
+    function newGame() {
+      currentMovie = movies[Math.floor(Math.random() * movies.length)];
+      document.getElementById('plot').innerText = currentMovie.plot;
+      document.getElementById('guess').value = '';
+      document.getElementById('message').innerText = '';
+      document.getElementById('play-again').style.display = 'none';
+    }
+
+    function checkGuess() {
+      const guess = document.getElementById('guess').value.trim().toLowerCase();
+      if (guess === currentMovie.title.toLowerCase()) {
+        document.getElementById('message').innerText = `🎉 Correct! The movie is "${currentMovie.title}"`;
+        document.getElementById('play-again').style.display = 'inline-block';
+      } else {
+        document.getElementById('message').innerText = "❌ Nope! Try again.";
+      }
+    }
+
+    function giveUp() {
+      document.getElementById('message').innerText = `😅 It's "${currentMovie.title}". Better luck next time!`;
+      document.getElementById('play-again').style.display = 'inline-block';
+    }
+
+    window.onload = newGame;
+  </script>
+</body>
+</html>
